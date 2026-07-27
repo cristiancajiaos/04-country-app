@@ -3,19 +3,32 @@
     <table class="table table-md mt-2 w-full">
       <thead>
         <th>#</th>
-        <th>Ícono</th>
+        <th>Código</th>
         <th>Bandera</th>
         <th>Nombre</th>
         <th>Capital</th>
         <th>Población</th>
       </thead>
       <tbody>
-        <tr></tr>
-        <tr></tr>
-        <tr></tr>
-        <tr></tr>
-        <tr></tr>
-        <tr></tr>
+        @for (country of countries(); track country.population; let index = $index) {
+          <tr>
+            <td>{{$index+1}}</td>
+            <td>
+              {{country.flag.emoji}}
+            </td>
+            <td>
+              <img [src]="country.flag.url_png" class="w-10" [alt]="country.flag.description"/>
+            </td>
+            <td>{{country.names.common}}</td>
+            <td>{{country.capitals[0].name}}</td>
+            <td>{{country.population}}</td>
+            <td>
+              <a class="link-primary cursor-pointer">
+                Más información
+              </a>
+            </td>
+          </tr>
+        }
       </tbody>
     </table>
   </section>
