@@ -47,7 +47,6 @@ export class ByCountryPage {
         this.isError.set(error);
       },
       complete: () => {
-        console.log('Observable complete');
         this.isLoading.set(false);
       }
     });

@@ -2,5 +2,10 @@
   (searchInput)="toSearch($event)"
   placeholder="Buscar por país"/>
 
-<country-list [countries]="countries()"/>
+<country-list
+  [countries]="countries() ?? []"
+  [isLoading]="isLoading()"
+  [errorMessage]="isError()"
+  [isEmpty]="countries.length == 0"
+/>
 

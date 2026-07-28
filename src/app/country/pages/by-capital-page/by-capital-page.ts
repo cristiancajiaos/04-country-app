@@ -3,7 +3,8 @@ import { SearchInput } from '../../components/search-input/search-input';
 import { CountryList } from '../../components/country-list/country-list';
 import { CountryService } from '../../services/country-service';
 import { Country } from '../../interfaces/rest-countries';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-by-capital-page',
@@ -19,6 +20,20 @@ export class ByCapitalPage {
 
   query = signal('');
 
+  /*
+  countryResource = rxResource({
+    params: () => ({query: this.query()}),
+    loader: ({params}) => {
+      if (!params.query) {
+        return of([]);
+      }
+
+      return this.countryService.searchByCapital(params.query)
+    }
+  })
+  */
+
+  /*
   countryResource = resource({
     params: () => ({query: this.query()}),
     loader: async({params}) => {
@@ -31,6 +46,8 @@ export class ByCapitalPage {
       );
     }
   })
+    */
+
 
   toSearch(query: string): void {
     if (!this.isLoading()) {
@@ -48,7 +65,6 @@ export class ByCapitalPage {
           console.error(error);
         },
         complete: () => {
-          console.log('Observable complete');
           this.isLoading.set(false);
         },
       });

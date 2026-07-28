@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
-import { catchError, Observable, throwError } from 'rxjs';
-import { RESTCountry } from '../interfaces/rest-countries';
+import { catchError, delay, map, Observable, throwError } from 'rxjs';
+import { Country, RESTCountry } from '../interfaces/rest-countries';
 
 @Service()
 export class CountryService {
@@ -35,9 +35,30 @@ export class CountryService {
         Authorization: `Bearer ${environment.apiKey}`
       }
     }).pipe(
+      delay(3000),
       catchError((error) => {
         console.error(error);
         return throwError(() => new Error("No se pudo obtener países"))
+      })
+    )
+  }
+
+  searchCountryByAlphaCode(code: string) {
+    const queryToSend = code.toLowerCase();
+
+    return this.httpClient.get<RESTCountry>(`${environment.restCountriesApiUrl}/code`,
+      {
+        params: {
+          q: queryToSend
+        },
+        headers: {
+          Authorization: `Bearer ${environment.apiKey}`
+        }
+      }
+    ).pipe(
+      map(foo => foo.data.objects.at(0)),
+      catchError((error) => {
+        return throwError(() => new Error(`No se pudo obtener países con el código ${code}`))
       })
     )
   }
