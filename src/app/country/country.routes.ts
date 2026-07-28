@@ -26,7 +26,7 @@ export const CountryRoutes: Routes = [
         pathMatch: 'full'
       },
       {
-        path: ':code',
+        path: 'by/:code',
         component: CountryPage,
         pathMatch: 'full'
       },
