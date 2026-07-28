@@ -4,10 +4,12 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { map } from 'rxjs';
 import { CountryService } from '../../services/country-service';
 import { Country } from '../../interfaces/rest-countries';
+import { NotFound } from '../../../shared/components/not-found/not-found';
+import { CountryInformation } from './country-information/country-information';
 
 @Component({
   selector: 'app-country-page',
-  imports: [RouterLink],
+  imports: [NotFound, CountryInformation],
   templateUrl: './country-page.html',
 })
 export class CountryPage implements OnInit {
