@@ -23,4 +23,22 @@ export class CountryService {
       })
     )
   }
+
+  searchByCountry(query: string): Observable<RESTCountry> {
+    const queryToSend = query.toLowerCase();
+
+    return this.httpClient.get<RESTCountry>(`${environment.restCountriesApiUrl}`, {
+      params: {
+        q: queryToSend
+      },
+      headers: {
+        Authorization: `Bearer ${environment.apiKey}`
+      }
+    }).pipe(
+      catchError((error) => {
+        console.error(error);
+        return throwError(() => new Error("No se pudo obtener países"))
+      })
+    )
+  }
 }
