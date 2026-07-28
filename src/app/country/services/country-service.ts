@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { RESTCountry } from '../interfaces/rest-countries';
 
 @Service()
@@ -16,6 +16,11 @@ export class CountryService {
       headers: {
         Authorization: `Bearer ${environment.apiKey}`
       }
-    })
+    }).pipe(
+      catchError((error) => {
+        console.error(error);
+        return throwError(() => new Error("No se pudo obtener países"))
+      })
+    )
   }
 }

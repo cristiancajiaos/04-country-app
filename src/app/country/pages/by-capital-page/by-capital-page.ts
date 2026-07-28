@@ -16,17 +16,19 @@ export class ByCapitalPage {
   isError = signal<string | null>(null);
   countries = signal<Country[]>([]);
 
-  toSearch(value: string): void {
+  toSearch(query: string): void {
     if (!this.isLoading()) {
       this.isLoading.set(true);
       this.isError.set(null);
 
-      this.countryService.searchByCapital(value).subscribe({
+      this.countryService.searchByCapital(query).subscribe({
         next: (resp) => {
           this.countries.set(resp.data.objects);
           console.log(this.countries());
         },
         error: (error) => {
+          this.isError.set(`No se encontró un país con la capital ${query}`);
+          this.countries.set([]);
           console.error(error);
         },
         complete: () => {
